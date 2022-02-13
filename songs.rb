@@ -28,6 +28,10 @@ class Playlist
         @songs.each {|song| yield song}
     end
 
+    def each_tagline
+        @songs.each {|song| yield "#{song.name} - #{song.artist}"}
+    end
+
     def play_songs
         puts "\nPlaying collection:"
         each {|song| song.play}
@@ -61,3 +65,5 @@ p song_labels
 
 total_duration = playlist.reduce(0) { |sum, song| sum + song.duration }
 p total_duration
+
+playlist.each_tagline { |tagline| puts tagline }
