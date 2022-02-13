@@ -49,3 +49,10 @@ miles_sum = flyers.reduce(0) {|acc, f| acc + f.miles_flown}
 puts "Total miles: #{miles_sum}"
 kms_sum = totals_in_kms.reduce(0, :+)
 puts "Total kilometers: #{kms_sum}"
+
+
+bronze_kms_flown = flyers.select {|f| f.status == :bronze}.reduce(0) {|acc, f| acc + f.miles_flown * 1.6}
+puts "\nKilometers flown by bronze flyers: #{bronze_kms_flown}"
+
+top_client = flyers.max_by {|f| f.miles_flown}
+puts "\nTop flyer: #{top_client}"
