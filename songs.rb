@@ -13,6 +13,8 @@ class Song
 end
 
 class Playlist
+    include Enumerable
+
     def initialize(name)
       @name = name
       @songs = []
@@ -44,3 +46,18 @@ playlist.add_song(song3)
 playlist.each { |song| song.play }
 
 playlist.play_songs
+
+one_songs = playlist.select { |song| song.name =~ /One/ }
+p one_songs
+
+non_one_songs = playlist.reject { |song| song.name =~ /One/ }
+p non_one_songs
+
+p playlist.any? { |song| song.artist == "Band Two" }
+p playlist.detect { |song| song.artist == "Band Two" }
+
+song_labels = playlist.map { |song| "#{song.name} - #{song.artist}" }
+p song_labels
+
+total_duration = playlist.reduce(0) { |sum, song| sum + song.duration }
+p total_duration
