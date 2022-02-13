@@ -19,3 +19,9 @@ n_times(5) do |n|
     puts "#{n} pushups"
     puts "#{n} chinups"
 end
+
+def progress
+    0.step(100, 10) {|percent| yield percent }
+end
+
+progress { |percent| puts percent }
