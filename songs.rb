@@ -10,6 +10,12 @@ class Song
     def play
       puts "Playing '#{name}' by #{artist} (#{duration} mins)..."
     end
+
+    def each_filename
+        extensions = [".mp3", ".wav", ".aac"]
+        filename = "#{@name}-#{@artist}".downcase.gsub(" ", "-")
+        extensions.each {|ext| yield filename + ext}
+    end
 end
 
 class Playlist
@@ -73,3 +79,5 @@ p total_duration
 playlist.each_tagline { |tagline| puts tagline }
 
 playlist.each_by_artist("Band One") { |song| song.play }
+
+song1.each_filename { |filename| puts filename }
