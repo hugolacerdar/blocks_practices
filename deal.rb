@@ -1,5 +1,5 @@
 def deal(number_of_cards = 1)
-    if not block_given?
+    unless block_given?
         puts "No deal!"
         return
     end
