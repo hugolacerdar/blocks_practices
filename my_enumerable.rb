@@ -36,4 +36,10 @@ module MyEnumerable
     end
     false
   end
+
+  def my_reduce(initial_value)
+    acc = initial_value
+    each { |value| acc = yield(acc, value) }
+    acc
+  end
 end
