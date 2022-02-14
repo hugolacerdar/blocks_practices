@@ -76,8 +76,8 @@ p playlist.my_detect { |song| song.artist == "Band One" }
 song_labels = playlist.my_map { |song| "#{song.name} - #{song.artist}" }
 p song_labels
 
-# total_duration = playlist.my_reduce(0) { |sum, song| sum + song.duration }
-# p total_duration
+total_duration = playlist.my_reduce(0) { |sum, song| sum + song.duration }
+p total_duration
 
 playlist.each_tagline { |tagline| puts tagline }
 
