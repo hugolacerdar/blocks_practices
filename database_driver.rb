@@ -23,6 +23,26 @@ class DatabaseDriver
     # executes SQL
   end
 
+  def begin_transaction
+    puts "Beginning transaction..."
+  end
+
+  def rollback_transaction
+    puts "Rolled back transaction!"
+  end
+
+  def commit_transaction
+    puts "Committed transaction."
+  end
+
+  def transactionally
+    begin_transaction
+    yield
+    commit_transaction
+  rescue => _
+    rollback_transaction
+  end
+
   def self.open(database, user, password)
     driver = self.new("my_database", "admin", "secret")
     driver.connect
@@ -38,11 +58,13 @@ class DatabaseDriver
 end
 
 DatabaseDriver.open("my_database", "admin", "secret") do |driver|
+  driver.transactionally do
+    driver.execute("UPDATE ORDERS SET status='completed'")
+    raise "Bloooom"
+    driver.execute("DELETE * FROM SHIPPING_QUEUE")
+  end
+
+  # not run in a transaction
   driver.execute("SELECT * FROM ORDERS")
   driver.execute("SELECT * FROM USERS")
 end
-
-driver = DatabaseDriver.open("my_database", "admin", "secret")
-driver.execute("SELECT * FROM ORDERS")
-driver.execute("SELECT * FROM USERS")
-driver.disconnect
