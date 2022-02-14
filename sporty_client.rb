@@ -32,6 +32,17 @@ class SportyClient
       sign_out(user)
     end
   end
+
+  def self.open(user)
+    client = self.new
+    client.sign_in(user)
+    return client unless block_given?
+    begin
+      yield(client)
+    ensure
+      client.sign_out(user)
+    end
+  end
 end
 
 client = SportyClient.new
@@ -41,3 +52,15 @@ client.as_signed_in_user("broncos_fan") do
   client.post("Broncos are going all the way!")
   client.timeline
 end
+
+SportyClient.open("broncos_fan") do |client|
+  client.post("Ready for the new season...")
+  client.post("Broncos are going all the way!")
+  client.timeline
+end
+
+client = SportyClient.open("broncos_fan")
+client.post("Ready for the new season...")
+client.post("Broncos are going all the way!")
+client.timeline
+client.sign_out("broncos_fan")
